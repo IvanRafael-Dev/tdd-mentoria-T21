@@ -1,5 +1,5 @@
 import { IUser } from '../../service/UserService'
 
 export interface IUserService {
-  create (user: IUser): any
+  create (user: IUser): Promise<any>
 }

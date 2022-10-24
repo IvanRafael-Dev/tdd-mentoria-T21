@@ -8,8 +8,8 @@ export class UserController {
     this.userService = userService
   }
 
-  create (request: Request, response: Response): Response {
-    this.userService.create(request.body)
-    return response.sendStatus(201)
+  async create (request: Request, response: Response): Promise<Response> {
+    const user = await this.userService.create(request.body)
+    return response.status(201).json(user)
   }
 }
