@@ -1,18 +1,15 @@
 import { Request, Response } from 'express'
-import { UserService } from '../service/UserService'
+import { IUserService } from '../interfaces/services/IUserService'
 
 export class UserController {
-  private readonly userService: UserService
+  private readonly userService: IUserService
 
-  constructor () {
-    this.userService = new UserService()
+  constructor (userService: IUserService) {
+    this.userService = userService
   }
 
   create (request: Request, response: Response): Response {
-    const error = this.userService.create(request.body)
-    if (error) {
-      return response.status(400).json(error)
-    }
+    this.userService.create(request.body)
     return response.sendStatus(201)
   }
 }

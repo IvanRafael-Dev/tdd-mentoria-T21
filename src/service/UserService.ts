@@ -1,4 +1,6 @@
-interface IUser {
+import { IUserService } from '../interfaces/services/IUserService'
+import { MissingParamError } from './../errors/missing-param-error'
+export interface IUser {
   email: string
   username: string
   password: string
@@ -6,12 +8,12 @@ interface IUser {
 
 type RequiredFields = ['email', 'username', 'password']
 
-export class UserService {
+export class UserService implements IUserService {
   create (user: IUser): any {
     const requiredFields: RequiredFields = ['email', 'username', 'password']
     for (const field of requiredFields) {
       if (!user[field]) {
-        return { error: `O campo "${field}" é obrigatório` }
+        throw new MissingParamError(`O campo "${field}" é obrigatório`)
       }
     }
   }
