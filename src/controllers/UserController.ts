@@ -12,4 +12,9 @@ export class UserController {
     const user = await this.userService.create(request.body)
     return response.status(201).json(user)
   }
+
+  async login (request: Request, response: Response): Promise<Response | void> {
+    const token = await this.userService.login(request.body)
+    return response.status(200).json({ token })
+  }
 }
