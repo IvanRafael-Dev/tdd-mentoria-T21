@@ -1,4 +1,4 @@
-import jwt from 'jsonwebtoken'
+import { ITokenServices } from './../utils/JWT/TokenServices'
 import { IUserService } from '../interfaces/services/IUserService'
 import { ConflictError } from './../errors/conflict-error'
 import { IUserModel } from '../interfaces/models/IUserModel'
@@ -9,9 +9,11 @@ import { IUserRepository } from '../interfaces/repository/IUserRepository'
 
 export class UserService implements IUserService {
   public readonly userRepository: IUserRepository
+  public readonly tokenServices: ITokenServices
 
-  constructor (userRepository: IUserRepository) {
+  constructor (userRepository: IUserRepository, tokenServices: ITokenServices) {
     this.userRepository = userRepository
+    this.tokenServices = tokenServices
   }
 
   async create (user: IUser): Promise<IUserModel> {
@@ -37,7 +39,7 @@ export class UserService implements IUserService {
 
     const { id, username, email } = user
     const payload = { id, username, email }
-    const token = jwt.sign(payload, 'senhaSecreta')
+    const token = this.tokenServices.createToken(payload)
     return token
   }
 }
