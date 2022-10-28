@@ -1,30 +1,27 @@
 import jwt from 'jsonwebtoken'
-import User from '../database/models/User'
 import { IUserService } from '../interfaces/services/IUserService'
 import { ConflictError } from './../errors/conflict-error'
 import { IUserModel } from '../interfaces/models/IUserModel'
 import { UnauthorizedError } from '../errors/unauthorized-error'
-export interface IUser {
-  email: string
-  username: string
-  password: string
-}
-
-export interface ILogin {
-  email: string
-  password: string
-}
+import { IUser } from '../interfaces/services/IUser'
+import { ILogin } from '../interfaces/services/ILogin'
+import { IUserRepository } from '../interfaces/repository/IUserRepository'
 
 export class UserService implements IUserService {
+  public readonly userRepository: IUserRepository
+
+  constructor (userRepository: IUserRepository) {
+    this.userRepository = userRepository
+  }
+
   async create (user: IUser): Promise<IUserModel> {
-    const isUser = await User.findOne({ where: { email: user.email } })
+    const isUser = await this.userRepository.findByEmail(user.email)
     if (isUser) {
       throw new ConflictError('O email já está cadastrado')
     }
 
-    const newUser = await User.create({ ...user })
-    const { id, username, email } = newUser
-    return { id, username, email }
+    const newUser = await this.userRepository.create(user)
+    return newUser
   }
 
   checkPassword (userPassword: string | undefined, bodyPassword: string): boolean {
@@ -32,7 +29,8 @@ export class UserService implements IUserService {
   }
 
   async login (login: ILogin): Promise<string> {
-    const user = await User.findOne({ where: { email: login.email } })
+    const user = await this.userRepository.findByEmail(login.email)
+
     if (!user || !this.checkPassword(user.password, login.password)) {
       throw new UnauthorizedError('Email ou Password são inválidos')
     }

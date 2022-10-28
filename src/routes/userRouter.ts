@@ -1,10 +1,13 @@
 import { Router } from 'express'
+import { UserRepository } from './../repository/sequelize/UserRepository'
 import { UserController } from '../controllers/UserController'
 import { validateBody } from '../middleware/validateBody'
 import { UserService } from '../service/UserService'
 
-const userService = new UserService()
+const userRepository = new UserRepository()
+const userService = new UserService(userRepository)
 const userController = new UserController(userService)
+
 const router = Router()
 
 router
