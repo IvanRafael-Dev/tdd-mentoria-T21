@@ -1,8 +1,8 @@
-import { IUserModel } from '../models/IUserModel'
+import { IUserDTO } from '../models/IUserDTO'
 import { ILogin } from './ILogin'
-import { IUser } from './IUser'
+import { INewUserBody } from './INewUserBody'
 
 export interface IUserService {
-  create (user: IUser): Promise<IUserModel>
+  create (user: INewUserBody): Promise<IUserDTO>
   login (login: ILogin): Promise<string>
 }

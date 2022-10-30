@@ -1,12 +1,12 @@
 import User from '../../database/entities/User'
-import { IUserDTO } from '../../interfaces/models/IUserModel'
+import { IUserDTO } from '../../interfaces/models/IUserDTO'
 import { IUserRepository } from '../../interfaces/repository/IUserRepository'
-import { IUser } from '../../interfaces/services/IUser'
+import { INewUserBody } from '../../interfaces/services/INewUserBody'
 
 export class UserRepository implements IUserRepository {
   constructor (private readonly userModel = User) {}
 
-  async create (user: IUser): Promise<IUserDTO> {
+  async create (user: INewUserBody): Promise<IUserDTO> {
     const newUser = await this.userModel.create({ ...user })
     const { id, username, email } = newUser
     return { id, username, email }
