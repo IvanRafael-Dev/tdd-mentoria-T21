@@ -1,7 +1,7 @@
 import { ITokenServices } from './../utils/JWT/TokenServices'
 import { IUserService } from '../interfaces/services/IUserService'
 import { ConflictError } from './../errors/conflict-error'
-import { IUserModel } from '../interfaces/models/IUserModel'
+import { IUserDTO } from '../interfaces/models/IUserModel'
 import { UnauthorizedError } from '../errors/unauthorized-error'
 import { IUser } from '../interfaces/services/IUser'
 import { ILogin } from '../interfaces/services/ILogin'
@@ -16,7 +16,7 @@ export class UserService implements IUserService {
     this.tokenServices = tokenServices
   }
 
-  async create (user: IUser): Promise<IUserModel> {
+  async create (user: IUser): Promise<IUserDTO> {
     const isUser = await this.userRepository.findByEmail(user.email)
     if (isUser) {
       throw new ConflictError('O email já está cadastrado')

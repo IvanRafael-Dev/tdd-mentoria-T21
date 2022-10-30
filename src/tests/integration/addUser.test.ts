@@ -3,7 +3,7 @@ import chai, { expect } from 'chai'
 import chaiHttp from 'chai-http'
 import sinon from 'sinon'
 import { app } from '../../api/app'
-import User from '../../database/models/User'
+import User from '../../database/entities/User'
 
 chai.use(chaiHttp)
 

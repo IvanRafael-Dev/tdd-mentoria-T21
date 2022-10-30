@@ -1,4 +1,4 @@
-export interface IUserModel {
+export interface IUserDTO {
   id: number
   email: string
   username: string
