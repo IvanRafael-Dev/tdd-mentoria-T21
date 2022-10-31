@@ -1,8 +1,8 @@
+import { IUserEntity } from './../interfaces/models/IUserEntity'
 import { IUserRepository } from './../interfaces/repository/IUserRepository'
 import { IUserModel } from './../interfaces/models/IUserModel'
 import { IUserDTO } from '../interfaces/models/IUserDTO'
 import { INewUserBody } from '../interfaces/services/INewUserBody'
-import { IUserEntity } from '../interfaces/models/IUserEntity'
 
 export class UserModel implements IUserModel {
   private readonly userRepository: IUserRepository

@@ -1,6 +1,6 @@
+import { IUserEntity } from './IUserEntity'
 import { INewUserBody } from '../services/INewUserBody'
 import { IUserDTO } from './IUserDTO'
-import { IUserEntity } from './IUserEntity'
 
 export interface IUserModel {
   create (user: INewUserBody): Promise<IUserDTO>

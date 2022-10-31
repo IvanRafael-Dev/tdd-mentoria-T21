@@ -3,7 +3,7 @@ import { IUserDTO } from '../../interfaces/models/IUserDTO'
 import { IUserRepository } from '../../interfaces/repository/IUserRepository'
 import { INewUserBody } from '../../interfaces/services/INewUserBody'
 
-export class UserRepository implements IUserRepository {
+export class UserSequelizeRepository implements IUserRepository {
   constructor (private readonly userModel = User) {}
 
   async create (user: INewUserBody): Promise<IUserDTO> {
@@ -12,7 +12,7 @@ export class UserRepository implements IUserRepository {
     return { id, username, email }
   }
 
-  async findByEmail (email: string): Promise<User | null> {
+  async findByEmail (email: string): Promise<IUserDTO & { password: string } | null> {
     return await this.userModel.findOne({ where: { email } })
   }
 }

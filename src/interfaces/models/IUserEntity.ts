@@ -1,5 +1,7 @@
+import { ObjectId } from 'mongodb'
+
 export interface IUserEntity {
-  id: number
+  id: number | ObjectId
   email: string
   username: string
   password: string

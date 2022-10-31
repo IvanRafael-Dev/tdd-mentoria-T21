@@ -1,13 +1,15 @@
 import { TokenServices } from './../utils/JWT/TokenServices'
 import { Router } from 'express'
-import { UserRepository } from './../repository/sequelize/UserRepository'
 import { UserController } from '../controllers/UserController'
 import { validateBody } from '../middleware/validateBody'
 import { UserService } from '../service/UserService'
+import UserMongoRepository from '../repository/mongo/UserRepository'
+// import { UserSequelizeRepository } from '../repository/sequelize/UserRepository'
 
-const userRepository = new UserRepository()
+const userMongoRepository = new UserMongoRepository()
+// const userSequelizeRepository = new UserSequelizeRepository()
 const tokenServices = new TokenServices()
-const userService = new UserService(userRepository, tokenServices)
+const userService = new UserService(userMongoRepository, tokenServices)
 const userController = new UserController(userService)
 
 const router = Router()
