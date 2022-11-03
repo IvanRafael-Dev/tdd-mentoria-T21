@@ -23,8 +23,6 @@ export class UserService implements IUserService {
     }
 
     const newUser = await this.userModel.create(user)
-    console.log(newUser)
-
     return newUser
   }
 

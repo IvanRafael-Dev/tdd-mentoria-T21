@@ -21,10 +21,8 @@ export default class UserMongoRepository implements IUserRepository {
   async findByEmail (email: string): Promise<IUserEntity | null> {
     const db = await this.mongodb.then(db => db.collection('user'))
     const user = await db.findOne({ email })
-    if (user) {
-      const result = Object.assign(this.mongoMapper(user as WithId<IUserDTO>), {}, { password: user?.password })
-      return result
-    }
-    return null
+    if (!user) return null
+    const result = Object.assign(this.mongoMapper(user as WithId<IUserDTO>), {}, { password: user?.password })
+    return result
   }
 }
