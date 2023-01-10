@@ -1,5 +1,5 @@
 import { IUserEntity } from './IUserEntity'
-import { INewUserBody } from '../services/INewUserBody'
+import { INewUserBody } from '../payloads/INewUserBody'
 import { IUserDTO } from './IUserDTO'
 
 export interface IUserModel {

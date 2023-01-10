@@ -29,6 +29,6 @@ class App {
 
 export { App }
 
-// app urtilizado pelos tests
+// app utilizado pelos tests
 
 export const { app } = new App()

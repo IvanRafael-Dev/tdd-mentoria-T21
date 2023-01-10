@@ -4,8 +4,8 @@ import { IUserService } from '../interfaces/services/IUserService'
 import { ConflictError } from './../errors/conflict-error'
 import { IUserDTO } from '../interfaces/models/IUserDTO'
 import { UnauthorizedError } from '../errors/unauthorized-error'
-import { INewUserBody } from '../interfaces/services/INewUserBody'
-import { ILogin } from '../interfaces/services/ILogin'
+import { INewUserBody } from '../interfaces/payloads/INewUserBody'
+import { ILogin } from '../interfaces/payloads/ILogin'
 
 export class UserService implements IUserService {
   public readonly userModel: IUserModel

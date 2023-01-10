@@ -1,9 +1,8 @@
-import { Db, MongoClient } from 'mongodb'
+import { MongoClient } from 'mongodb'
 
-const connection = async (): Promise<Db> => {
+const connection = async (): Promise<MongoClient> => {
   const client: MongoClient = new MongoClient('mongodb://localhost:27017')
-  await client.connect()
-  return client.db('tdd-tryber')
+  return await client.connect()
 }
 
 export { connection }

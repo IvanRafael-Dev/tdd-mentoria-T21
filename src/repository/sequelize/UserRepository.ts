@@ -1,7 +1,7 @@
 import User from '../../database/entities/User'
 import { IUserDTO } from '../../interfaces/models/IUserDTO'
 import { IUserRepository } from '../../interfaces/repository/IUserRepository'
-import { INewUserBody } from '../../interfaces/services/INewUserBody'
+import { INewUserBody } from '../../interfaces/payloads/INewUserBody'
 
 export class UserSequelizeRepository implements IUserRepository {
   constructor (private readonly userModel = User) {}
