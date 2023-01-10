@@ -1,3 +1,4 @@
+import { UserModel } from './../../models/UserModel'
 import { Model } from 'sequelize'
 import chai, { expect } from 'chai'
 import chaiHttp from 'chai-http'
@@ -62,8 +63,8 @@ describe('POST /users', () => {
     const user = { id: 1, username: 'any_user_log', email: 'email@mail.com', password: '123456' }
     const { password, ...userWithoutPass } = user
     before(() => {
-      sinon.stub(Model, 'findOne').resolves(null)
-      sinon.stub(Model, 'create').resolves(user as User)
+      sinon.stub(UserModel.prototype, 'findByEmail').resolves(null)
+      sinon.stub(UserModel.prototype, 'create').resolves(userWithoutPass)
     })
     after(() => sinon.restore())
     it('deve retornar um status 201', async () => {

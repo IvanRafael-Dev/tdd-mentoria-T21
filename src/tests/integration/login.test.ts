@@ -1,9 +1,8 @@
 import chai, { expect } from 'chai'
 import chaiHttp from 'chai-http'
-import { Model } from 'sequelize'
 import sinon from 'sinon'
 import { app } from '../../api/app'
-import User from '../../database/entities/User'
+import { UserModel } from './../../models/UserModel'
 import { UserService } from '../../service/UserService'
 
 chai.use(chaiHttp)
@@ -36,7 +35,7 @@ describe('POST /login', () => {
   })
 
   describe('quando o email informado não consta no bando de dados', () => {
-    before(() => sinon.stub(Model, 'findOne').resolves(null))
+    before(() => sinon.stub(UserModel.prototype, 'findByEmail').resolves(null))
     after(() => sinon.restore())
     it('deve retornar um status 401', async () => {
       const httpResponse = await chai
@@ -50,7 +49,7 @@ describe('POST /login', () => {
 
   describe('quando o email é encontrado mas a senha é incorreta', () => {
     const user = { id: 1, username: 'any_user', email: 'email@mail.com', password: '123456' }
-    before(() => sinon.stub(Model, 'findOne').resolves(user as User))
+    before(() => sinon.stub(UserModel.prototype, 'findByEmail').resolves(user))
     before(() => sinon.stub(UserService.prototype, 'checkPassword').returns(false))
     after(() => sinon.restore())
     it('deve retornar um status 401', async () => {
@@ -65,7 +64,7 @@ describe('POST /login', () => {
 
   describe('quando as credenciais estão corretas', () => {
     const user = { id: 1, username: 'any_user', email: 'email@mail.com', password: '123456' }
-    before(() => sinon.stub(Model, 'findOne').resolves(user as User))
+    before(() => sinon.stub(UserModel.prototype, 'findByEmail').resolves(user))
     before(() => sinon.stub(UserService.prototype, 'checkPassword').returns(true))
     after(() => sinon.restore())
 
