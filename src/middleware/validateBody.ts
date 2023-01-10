@@ -6,7 +6,7 @@ type LoginFields = ['email', 'password']
 
 type RequiredFields = LoginFields | CreateFields
 
-const validateBody = (requiredFields: RequiredFields) => (req: Request, res: Response, next: NextFunction): any => {
+const validateBody = (requiredFields: RequiredFields) => (req: Request, res: Response, next: NextFunction): void => {
   for (const field of requiredFields) {
     if (!req.body[field]) {
       throw new MissingParamError(`O campo "${field}" é obrigatório`)

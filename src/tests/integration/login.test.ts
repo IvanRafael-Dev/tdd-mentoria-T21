@@ -3,7 +3,7 @@ import chaiHttp from 'chai-http'
 import { Model } from 'sequelize'
 import sinon from 'sinon'
 import { app } from '../../api/app'
-import User from '../../database/models/User'
+import User from '../../database/entities/User'
 import { UserService } from '../../service/UserService'
 
 chai.use(chaiHttp)

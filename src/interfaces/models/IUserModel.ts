@@ -1,5 +1,8 @@
+import { IUserEntity } from './IUserEntity'
+import { INewUserBody } from '../payloads/INewUserBody'
+import { IUserDTO } from './IUserDTO'
+
 export interface IUserModel {
-  id: number
-  email: string
-  username: string
+  create (user: INewUserBody): Promise<IUserDTO>
+  findByEmail (email: string): Promise<IUserEntity | null>
 }

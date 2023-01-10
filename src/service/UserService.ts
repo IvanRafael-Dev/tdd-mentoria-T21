@@ -1,30 +1,29 @@
-import jwt from 'jsonwebtoken'
-import User from '../database/models/User'
+import { IUserModel } from './../interfaces/models/IUserModel'
+import { ITokenServices } from './../utils/JWT/TokenServices'
 import { IUserService } from '../interfaces/services/IUserService'
 import { ConflictError } from './../errors/conflict-error'
-import { IUserModel } from '../interfaces/models/IUserModel'
+import { IUserDTO } from '../interfaces/models/IUserDTO'
 import { UnauthorizedError } from '../errors/unauthorized-error'
-export interface IUser {
-  email: string
-  username: string
-  password: string
-}
-
-export interface ILogin {
-  email: string
-  password: string
-}
+import { INewUserBody } from '../interfaces/payloads/INewUserBody'
+import { ILogin } from '../interfaces/payloads/ILogin'
 
 export class UserService implements IUserService {
-  async create (user: IUser): Promise<IUserModel> {
-    const isUser = await User.findOne({ where: { email: user.email } })
+  public readonly userModel: IUserModel
+  public readonly tokenServices: ITokenServices
+
+  constructor (userModel: IUserModel, tokenServices: ITokenServices) {
+    this.userModel = userModel
+    this.tokenServices = tokenServices
+  }
+
+  async create (user: INewUserBody): Promise<IUserDTO> {
+    const isUser = await this.userModel.findByEmail(user.email)
     if (isUser) {
       throw new ConflictError('O email já está cadastrado')
     }
 
-    const newUser = await User.create({ ...user })
-    const { id, username, email } = newUser
-    return { id, username, email }
+    const newUser = await this.userModel.create(user)
+    return newUser
   }
 
   checkPassword (userPassword: string | undefined, bodyPassword: string): boolean {
@@ -32,14 +31,15 @@ export class UserService implements IUserService {
   }
 
   async login (login: ILogin): Promise<string> {
-    const user = await User.findOne({ where: { email: login.email } })
+    const user = await this.userModel.findByEmail(login.email)
+
     if (!user || !this.checkPassword(user.password, login.password)) {
       throw new UnauthorizedError('Email ou Password são inválidos')
     }
 
     const { id, username, email } = user
     const payload = { id, username, email }
-    const token = jwt.sign(payload, 'senhaSecreta')
+    const token = this.tokenServices.createToken(payload)
     return token
   }
 }
